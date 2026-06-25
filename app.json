@@ -1,0 +1,21 @@
+{
+  "expo": {
+    "name": "EntePhoto",
+    "slug": "entephoto-camera-selection",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "entephoto-camera-selection",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.entephoto.cameraselection"
+    },
+    "android": {
+      "package": "com.entephoto.cameraselection"
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}

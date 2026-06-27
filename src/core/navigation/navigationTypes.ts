@@ -12,7 +12,7 @@ export type RootStackParamList = {
     source: CameraHardwareSource;
     brand: CameraBrand;
   };
-  PhoneModelSelection: {
+  OtherPhoneQR: {
     source: CameraSourceType;
   };
   LiveTransferPlaceholder: {
@@ -20,4 +20,6 @@ export type RootStackParamList = {
     brand?: CameraBrand;
     model?: CameraModel;
   };
+  FlashLinkRoleSelection: undefined;
+  QRScanner: undefined;
 };

@@ -12,10 +12,31 @@
       "bundleIdentifier": "com.entephoto.cameraselection"
     },
     "android": {
-      "package": "com.entephoto.cameraselection"
+      "package": "com.entephoto.cameraselection",
+      "permissions": [
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_WIFI_STATE",
+        "android.permission.CHANGE_WIFI_STATE",
+        "android.permission.INTERNET",
+        "android.permission.NEARBY_WIFI_DEVICES"
+      ]
     },
     "web": {
       "bundler": "metro"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2e14310b-ad90-47bb-8060-8ad1caf4b8a7"
+      }
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow FlashLink to access your camera to scan QR codes."
+        }
+      ]
+    ]
   }
 }

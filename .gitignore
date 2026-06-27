@@ -40,6 +40,9 @@ local.properties
 node_modules/
 npm-debug.log
 yarn-error.log
+hs_err_pid*.log
+replay_pid*.log
+.expo/dev/logs/*.log
 
 # fastlane
 #

@@ -13,4 +13,6 @@ export const colors = {
   successTint: '#E7F1EA',
   inputBackground: '#FFFFFF',
   shadow: '#111827',
+  flashLinkBackground: '#0B1120',
+  flashLinkPrimary: '#8B5CF6',
 } as const;

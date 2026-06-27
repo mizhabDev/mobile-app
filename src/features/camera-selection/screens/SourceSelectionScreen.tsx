@@ -44,7 +44,7 @@ export function SourceSelectionScreen({navigation}: SourceSelectionScreenProps) 
     }
 
     if (selectedSource === 'otherPhone') {
-      navigation.navigate('PhoneModelSelection', {
+      navigation.navigate('OtherPhoneQR', {
         source: selectedSource,
       });
       return;

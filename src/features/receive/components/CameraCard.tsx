@@ -6,19 +6,23 @@ import {radius} from '@/core/theme/radius';
 import {spacing} from '@/core/theme/spacing';
 import {AppText} from '@/shared/components/AppText';
 
-type SelectionHeaderProps = {
+type CameraCardProps = {
   title: string;
   subtitle: string;
   showBack?: boolean;
   onBackPress?: () => void;
 };
 
-export function SelectionHeader({
+/**
+ * Page header for receive-feature screens.
+ * Optionally renders a back button above the title.
+ */
+export function CameraCard({
   title,
   subtitle,
   showBack = false,
   onBackPress,
-}: SelectionHeaderProps) {
+}: CameraCardProps) {
   return (
     <View style={styles.container}>
       {showBack ? (

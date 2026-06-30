@@ -61,7 +61,7 @@ export function FlashLinkRoleSelectionScreen({
           <TouchableOpacity 
             style={[styles.card, styles.receiveCard]} 
             activeOpacity={0.9}
-            onPress={() => navigation.navigate('SourceSelection')}
+            onPress={() => navigation.navigate('CameraDetection')}
           >
             <View style={styles.cardIconWrapper}>
               <View style={[styles.cardIconBase, styles.cardIconReceive]}>

@@ -7,6 +7,7 @@ import {Feather} from '@expo/vector-icons';
 import {WifiDirectService} from '@/core/services/WifiDirectService';
 import {SystemWifiStateService} from '@/core/services/SystemWifiStateService';
 import {showWifiDirectReadinessAlert} from '@/core/utils/showWifiDirectReadinessAlert';
+import {showWifiDirectDebugAlert} from '@/core/utils/showWifiDirectDebugAlert';
 
 import {RootStackParamList} from '@/core/navigation/navigationTypes';
 import {colors} from '@/core/theme/colors';
@@ -38,41 +39,42 @@ export function QRScannerScreen({navigation}: QRScannerScreenProps) {
     setScanned(true);
     
     if (data.startsWith('WIFI_P2P:')) {
-      const macAddress = data.replace('WIFI_P2P:', '');
+      WifiDirectService.clearDebugLog();
       setIsConnecting(true);
 
-      const readiness = await SystemWifiStateService.getWifiDirectReadiness();
-      if (!readiness.ready) {
-        showWifiDirectReadinessAlert(readiness, () => {
+      try {
+        const payload = WifiDirectService.parseQrPayload(data);
+        const readiness = await SystemWifiStateService.getWifiDirectReadiness();
+        if (!readiness.ready) {
+          showWifiDirectReadinessAlert(readiness, () => {
+            setIsConnecting(false);
+            setScanned(false);
+          });
+          return;
+        }
+
+        const hasPerms = await WifiDirectService.requestPermissions();
+        if (!hasPerms) {
+          Alert.alert(
+            'Connection Failed',
+            'We need Location, Wi-Fi, and Nearby Devices permissions to securely connect to the other device.',
+          );
           setIsConnecting(false);
           setScanned(false);
-        });
-        return;
-      }
-      
-      const hasPerms = await WifiDirectService.requestPermissions();
-      if (!hasPerms) {
-        Alert.alert(
-          'Connection Failed',
-          'We need Location and Nearby Devices permissions to securely connect to the other device.',
-        );
-        setIsConnecting(false);
-        setScanned(false);
-        return;
-      }
+          return;
+        }
 
-      try {
         await WifiDirectService.init();
-        await WifiDirectService.discoverAndConnect(macAddress);
+        await WifiDirectService.discoverAndConnect(payload);
         
-        // Once connected, navigate to a placeholder screen
-        navigation.navigate('LiveTransferPlaceholder', {
-          source: 'otherPhone',
-        });
+        // Connection established — open the remote gallery viewer (Phone B)
+        navigation.navigate('RemoteGallery');
       } catch (e) {
-        Alert.alert(
+        const message = WifiDirectService.getReadableError(e);
+        showWifiDirectDebugAlert(
           'Connection Error',
-          'Could not connect to the host device. Keep both phones close together with Wi-Fi enabled, then scan again.',
+          message,
+          WifiDirectService.getDebugLog(),
         );
         setScanned(false);
       } finally {

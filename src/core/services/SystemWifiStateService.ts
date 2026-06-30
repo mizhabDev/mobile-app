@@ -33,6 +33,19 @@ export type WifiDirectReadiness =
     };
 
 export class SystemWifiStateService {
+  static async getState(): Promise<SystemWifiState | null> {
+    if (Platform.OS !== 'android' || !nativeModule) {
+      return null;
+    }
+
+    try {
+      return await nativeModule.getState();
+    } catch (error) {
+      console.warn('Could not read Wi-Fi state', error);
+      return null;
+    }
+  }
+
   static async getWifiDirectReadiness(): Promise<WifiDirectReadiness> {
     if (Platform.OS !== 'android') {
       return {
@@ -54,7 +67,16 @@ export class SystemWifiStateService {
     }
 
     try {
-      const state = await nativeModule.getState();
+      const state = await this.getState();
+      if (!state) {
+        return {
+          ready: false,
+          reason: 'unknown',
+          title: 'Check Wi-Fi Settings',
+          message: 'Could not check Wi-Fi status. Please make sure Wi-Fi is enabled and hotspot is off.',
+          settingsAction: 'wireless',
+        };
+      }
 
       if (state.hotspotEnabled) {
         return {
